@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* Animated Gradient Background */
+        body {
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #311042, #0284c7);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Input styling and focus effects */
+        .input-group input:focus ~ .input-icon {
+            color: #38bdf8;
+        }
+
+        /* Smooth fade animations */
+        .fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="w-full max-w-md">
+        
+        <!-- Login Card -->
+        <div id="loginCard" class="glass-card rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden transition-all duration-300">
+            
+            <!-- Header Icon & Title -->
+            <div class="text-center mb-8">
+                <div class="inline-flex items-center justify-center w-20 h-20 bg-sky-500/10 rounded-full border border-sky-400/30 mb-4 shadow-inner">
+                    <i class="fa-solid fa-user-lock text-3xl text-sky-400"></i>
+                </div>
+                <h2 class="text-3xl font-bold tracking-wide">تسجيل الدخول</h2>
+                <p class="text-slate-300 text-sm mt-2">أدخل بياناتك للوصول إلى الحساب</p>
+            </div>
+
+            <!-- Feedback Alert Message -->
+            <div id="alertBox" class="hidden mb-6 p-4 rounded-xl text-sm font-medium transition-all duration-300 items-center gap-3">
+                <i id="alertIcon" class="fa-solid text-lg"></i>
+                <span id="alertMessage"></span>
+            </div>
+
+            <!-- Form -->
+            <form id="loginForm" onsubmit="handleLogin(event)" class="space-y-6">
+                
+                <!-- Username Input -->
+                <div class="space-y-2">
+                    <label for="username" class="block text-sm font-medium text-slate-200">اسم المستخدم</label>
+                    <div class="relative input-group">
+                        <input 
+                            type="text" 
+                            id="username" 
+                            required 
+                            placeholder="أدخل اسم المستخدم" 
+                            class="w-full bg-slate-900/40 border border-slate-600/60 rounded-xl px-4 py-3.5 pr-11 text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-all duration-200"
+                        >
+                        <i class="fa-solid fa-user input-icon absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg transition-colors duration-200"></i>
+                    </div>
+                </div>
+
+                <!-- Password Input -->
+                <div class="space-y-2">
+                    <label for="password" class="block text-sm font-medium text-slate-200">كلمة السر</label>
+                    <div class="relative input-group">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            required 
+                            placeholder="أدخل كلمة السر" 
+                            class="w-full bg-slate-900/40 border border-slate-600/60 rounded-xl px-4 py-3.5 pr-11 pl-11 text-white placeholder-slate-400 focus:outline-none focus:border-sky-400 focus:ring-1 focus:ring-sky-400 transition-all duration-200"
+                        >
+                        <i class="fa-solid fa-key input-icon absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 text-lg transition-colors duration-200"></i>
+                        
+                        <!-- Toggle Password Visibility -->
+                        <button 
+                            type="button" 
+                            onclick="togglePassword()" 
+                            class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors duration-200 focus:outline-none"
+                            aria-label="Toggle Password Visibility"
+                        >
+                            <i id="toggleIcon" class="fa-solid fa-eye text-md"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="w-full bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-semibold py-3.5 rounded-xl shadow-lg hover:shadow-sky-500/25 active:scale-[0.99] transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                    <span>تسجيل الدخول</span>
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+            </form>
+            
+            <!-- Default Info Hint -->
+            <div class="mt-6 pt-6 border-t border-slate-700/50 text-center text-xs text-slate-400">
+                <p>بيانات التجربة: <span class="text-sky-300 font-mono dir-ltr inline-block">admin</span> / <span class="text-sky-300 font-mono dir-ltr inline-block">123456</span></p>
+            </div>
+        </div>
+
+        <!-- Welcome Screen (Hidden by default) -->
+        <div id="welcomeCard" class="hidden glass-card rounded-3xl p-8 sm:p-10 text-white text-center fade-in">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-emerald-500/20 rounded-full border border-emerald-400/40 mb-6 text-emerald-400 text-4xl shadow-lg">
+                <i class="fa-solid fa-circle-check"></i>
+            </div>
+            
+            <h2 class="text-3xl font-bold text-white mb-2">مرحباً بك مجدداً!</h2>
+            <p class="text-slate-300 mb-8">تم تسجيل الدخول بنجاح بصلاحيات مسؤول النظام (<span class="text-sky-400 font-semibold">admin</span>).</p>
+            
+            <div class="bg-slate-900/50 rounded-2xl p-6 border border-slate-700/50 mb-8 text-right space-y-3">
+                <div class="flex justify-between items-center text-sm border-b border-slate-800 pb-2">
+                    <span class="text-slate-400">حالة الجلسة:</span>
+                    <span class="text-emerald-400 font-semibold flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        نشط الآن
+                    </span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">نوع الحساب:</span>
+                    <span class="text-slate-200 font-medium">مدير النظام (Administrator)</span>
+                </div>
+            </div>
+
+            <button 
+                onclick="handleLogout()" 
+                class="w-full bg-rose-500/20 border border-rose-500/40 hover:bg-rose-500/30 text-rose-300 hover:text-rose-200 font-semibold py-3.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
+            >
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>تسجيل الخروج</span>
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Toggle Password Visibility Function
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('toggleIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Display Alert Messages
+        function showAlert(message, type) {
+            const alertBox = document.getElementById('alertBox');
+            const alertIcon = document.getElementById('alertIcon');
+            const alertMessage = document.getElementById('alertMessage');
+
+            alertBox.classList.remove('hidden', 'bg-rose-500/20', 'border-rose-500/40', 'text-rose-200', 'bg-emerald-500/20', 'border-emerald-400/40', 'text-emerald-200', 'border');
+
+            if (type === 'error') {
+                alertBox.classList.add('bg-rose-500/20', 'border', 'border-rose-500/40', 'text-rose-200', 'flex', 'fade-in');
+                alertIcon.className = 'fa-solid fa-triangle-exclamation text-rose-400';
+            } else if (type === 'success') {
+                alertBox.classList.add('bg-emerald-500/20', 'border', 'border-emerald-400/40', 'text-emerald-200', 'flex', 'fade-in');
+                alertIcon.className = 'fa-solid fa-circle-check text-emerald-400';
+            }
+
+            alertMessage.textContent = message;
+        }
+
+        // Login Handler Logic
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const usernameInput = document.getElementById('username').value.trim();
+            const passwordInput = document.getElementById('password').value.trim();
+
+            // Credentials Validation
+            if (usernameInput === 'admin' && passwordInput === '123456') {
+                showAlert('تم التحقق بنجاح! جاري تحويلك...', 'success');
+                
+                // Transition to Welcome Dashboard
+                setTimeout(() => {
+                    document.getElementById('loginCard').classList.add('hidden');
+                    document.getElementById('welcomeCard').classList.remove('hidden');
+                    
+                    // Reset input fields
+                    document.getElementById('loginForm').reset();
+                    document.getElementById('alertBox').classList.add('hidden');
+                }, 1000);
+
+            } else {
+                showAlert('اسم المستخدم أو كلمة السر غير صحيحة!', 'error');
+            }
+        }
+
+        // Logout Handler Logic
+        function handleLogout() {
+            document.getElementById('welcomeCard').classList.add('hidden');
+            document.getElementById('loginCard').classList.remove('hidden');
+            document.getElementById('loginCard').classList.add('fade-in');
+        }
+    </script>
+</body>
+</html>
